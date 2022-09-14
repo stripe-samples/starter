@@ -1,12 +1,13 @@
 import env from 'dotenv';
 import path from 'path';
+
 // Replace if using a different env file or config.
 env.config({ path: './.env' });
 
 import bodyParser from 'body-parser';
 import express from 'express';
-
 import Stripe from 'stripe';
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2020-08-27',
   appInfo: { // For sample support and debugging, not required for production:
@@ -47,31 +48,6 @@ app.get('/config', (_: express.Request, res: express.Response): void => {
     publishableKey: process.env.STRIPE_PUBLISHABLE_KEY
   });
 });
-
-app.post(
-  '/create-payment-intent',
-  async (req: express.Request, res: express.Response): Promise<void> => {
-    const { currency }: { currency: string } = req.body;
-
-    try {
-      const paymentIntent: Stripe.PaymentIntent = await stripe.paymentIntents.create({
-        amount: 1999,
-        currency
-      });
-
-      // Send publishable key and PaymentIntent client_secret to client.
-      res.send({
-        clientSecret: paymentIntent.client_secret,
-      });
-    } catch (e) {
-      res.status(400).send({
-        error: {
-          message: e.message,
-        }
-      });
-    }
-  }
-);
 
 // Expose a endpoint as a webhook handler for asynchronous events.
 // Configure your webhook in the stripe developer dashboard:

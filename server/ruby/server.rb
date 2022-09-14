@@ -32,23 +32,6 @@ get '/config' do
   }.to_json
 end
 
-post '/create-payment-intent' do
-  content_type 'application/json'
-  data = JSON.parse(request.body.read)
-
-  # Create the payment details based on your logic.
-  # Create a PaymentIntent with the purchase amount and currency.
-  payment_intent = Stripe::PaymentIntent.create(
-    amount: 1000,
-    currency: 'usd',
-  )
-
-  # Send the PaymentIntent client_secret to the client.
-  {
-    clientSecret: payment_intent['client_secret']
-  }.to_json
-end
-
 post '/webhook' do
   # You can use webhooks to receive information about asynchronous payment events.
   # For more about our webhook events check out https://stripe.com/docs/webhooks.

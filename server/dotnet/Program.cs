@@ -55,21 +55,6 @@ app.MapGet("config", async (string sessionId, IOptions<StripeOptions> options) =
     return Results.Ok(new { publishableKey = options.Value.PublishableKey });
 });
 
-app.MapPost("create-payment-intent", async (PaymentIntentService service, IOptions<StripeOptions> options) =>
-{
-    var options = new PaymentIntentCreateOptions
-    {
-        Amount = 2000,
-        Currency = "usd",
-        AutomaticPaymentMethods = new()
-        {
-            Enabled = true,
-        },
-    };
-    var paymentIntent = await service.CreateAsync(options);
-    return Results.Ok(new { paymentIntent.ClientSecret });
-});
-
 app.MapPost("webhook", async (HttpRequest req, IOptions<StripeOptions> options, ILogger<Program> logger) =>
 {
     var json = await new StreamReader(req.Body).ReadToEndAsync();

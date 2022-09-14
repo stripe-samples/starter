@@ -13,7 +13,6 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/stripe/stripe-go/v72"
 	"github.com/stripe/stripe-go/v72/webhook"
-	"github.com/stripe/stripe-go/v72/paymentintent"
 )
 
 func main() {
@@ -33,7 +32,6 @@ func main() {
 
 	http.Handle("/", http.FileServer(http.Dir(os.Getenv("STATIC_DIR"))))
 	http.HandleFunc("/config", handleConfig)
-	http.HandleFunc("/create-payment-intent", handleCreatePaymentIntent)
 	http.HandleFunc("/webhook", handleWebhook)
 
 	log.Println("server running at 0.0.0.0:4242")
@@ -61,41 +59,6 @@ func handleConfig(w http.ResponseWriter, r *http.Request) {
 		PublishableKey string `json:"publishableKey"`
 	}{
 		PublishableKey: os.Getenv("STRIPE_PUBLISHABLE_KEY"),
-	})
-}
-
-type paymentIntentCreateReq struct {
-	Currency          string `json:"currency"`
-}
-
-func handleCreatePaymentIntent(w http.ResponseWriter, r *http.Request) {
-	req := paymentIntentCreateReq{}
-	json.NewDecoder(r.Body).Decode(&req)
-
-	params := &stripe.PaymentIntentParams{
-		Amount:             stripe.Int64(1999),
-		Currency:           stripe.String(req.Currency),
-	}
-
-	pi, err := paymentintent.New(params)
-	if err != nil {
-		// Try to safely cast a generic error to a stripe.Error so that we can get at
-		// some additional Stripe-specific information about what went wrong.
-		if stripeErr, ok := err.(*stripe.Error); ok {
-			fmt.Printf("Other Stripe error occurred: %v\n", stripeErr.Error())
-			writeJSONErrorMessage(w, stripeErr.Error(), 400)
-		} else {
-			fmt.Printf("Other error occurred: %v\n", err.Error())
-			writeJSONErrorMessage(w, "Unknown server error", 500)
-		}
-
-		return
-	}
-
-	writeJSON(w, struct {
-		ClientSecret string `json:"clientSecret"`
-	}{
-		ClientSecret: pi.ClientSecret,
 	})
 }
 
