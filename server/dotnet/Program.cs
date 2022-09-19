@@ -16,7 +16,6 @@ builder.Services.Configure<StripeOptions>(options =>
     options.Domain = builder.Configuration["DOMAIN"];
 });
 builder.Services.AddSingleton<IStripeClient>(new StripeClient(builder.Configuration["STRIPE_SECRET_KEY"]));
-builder.Services.AddSingleton<PaymentIntentService>();
 
 var app = builder.Build();
 
