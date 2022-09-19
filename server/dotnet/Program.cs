@@ -45,8 +45,8 @@ var staticFileOptions = new SharedOptions
 {
     FileProvider = new PhysicalFileProvider(
         Path.Combine(Directory.GetCurrentDirectory(), builder.Configuration["STATIC_DIR"])
-    );
-}
+    )
+};
 app.UseDefaultFiles(new DefaultFilesOptions(staticFileOptions));
 app.UseStaticFiles(new StaticFileOptions(staticFileOptions));
 
