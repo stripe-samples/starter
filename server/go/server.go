@@ -105,7 +105,6 @@ func writeJSON(w http.ResponseWriter, v interface{}) {
 func writeJSONError(w http.ResponseWriter, v interface{}, code int) {
 	w.WriteHeader(code)
 	writeJSON(w, v)
-	return
 }
 
 func writeJSONErrorMessage(w http.ResponseWriter, message string, code int) {
