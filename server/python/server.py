@@ -14,7 +14,7 @@ stripe.set_app_info(
     version='0.0.1',
     url='https://github.com/stripe-samples')
 
-stripe.api_version = '2020-08-27'
+stripe.api_version = '2025-11-17.clover'
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
 static_dir = str(os.path.abspath(os.path.join(__file__ , "..", os.getenv("STATIC_DIR"))))
