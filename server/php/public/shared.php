@@ -55,6 +55,11 @@ DOMAIN=http://localhost:4242</pre>
   "https://github.com/stripe-samples"
 );
 
+# Don't put any keys in code. Use an environment variable (as shown
+# here) or secrets vault to supply keys to your integration.
+#
+# See https://docs.stripe.com/keys-best-practices and find your
+# keys at https://dashboard.stripe.com/apikeys.
 $stripe = new \Stripe\StripeClient([
   'api_key' => $_ENV['STRIPE_SECRET_KEY'],
   'stripe_version' => '2022-08-01',
