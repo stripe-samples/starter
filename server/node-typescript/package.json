@@ -15,7 +15,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "dotenv": "latest",
-    "express": "^4.17.1",
+    "express": "^5.1.0",
     "stripe": "13.5.0"
   },
   "devDependencies": {
