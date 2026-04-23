@@ -13,7 +13,7 @@
   "author": "stripe-demos",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.19.0",
+    "body-parser": "^2.2.0",
     "dotenv": "latest",
     "express": "^4.17.1",
     "stripe": "13.5.0"
